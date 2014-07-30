@@ -26,7 +26,7 @@ public class Level {
 	private int[] bounds = new int[4];
 	
 	List<Entity> entities = new ArrayList<Entity>();
-	private static Player player = new Player(5, 5);
+	private static Player player = new Player(4, 4);
 	
 	public Level(int width, int height) {
 		loadLevel("level_metal");
@@ -34,6 +34,7 @@ public class Level {
 	}
 	
 	public void spawner() {
+		player.init(this);
 		addEntity(player);
 	}
 	
@@ -119,6 +120,11 @@ public class Level {
 				addTiles(x, y);
 			}	
 		}
+	}
+	
+	public Tile getSolidTile(int x, int y) {
+		if (x < 0 || y < 0 || x >= width || y >= height) return null;
+		return solidTile[x][y];
 	}
 	
 	public void addTiles(int x, int y) {
