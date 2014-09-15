@@ -3,11 +3,17 @@ package com.veridian.main.game;
 import org.lwjgl.opengl.GL11;
 
 import com.veridian.main.Component;
+import com.veridian.main.entities.particles.Particle;
 import com.veridian.main.game.level.Level;
+import com.veridian.main.graphics.Color;
+import com.veridian.main.graphics.Renderer;
+
+import static org.lwjgl.opengl.GL11.*;
 
 public class Game {
 	
 	Level level;
+	Particle particle = new Particle(null, 64, 64);
 	
 	public static float xScroll, yScroll;
 	
@@ -43,5 +49,9 @@ public class Game {
 	public void render() {
 		GL11.glTranslatef(xScroll, yScroll, 0);
 		level.render();
+		
+		glBegin(GL_QUADS);
+		particle.render();
+		glEnd();
 	}
 }

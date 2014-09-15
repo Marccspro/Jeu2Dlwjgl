@@ -17,6 +17,8 @@ import com.veridian.main.game.level.tiles.Tile.Tiles;
 
 public class Level {
 	
+	public float gravity = 1.8f;
+	
 	public int width, height;
 	
 	List<Tile> tiles = new ArrayList<Tile>();
@@ -161,8 +163,9 @@ public class Level {
 		}
 		for (int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
-			e.render();
+			if (!(e instanceof Player)) e.render();
 		}
+		entities.get(0).render();
 	}
 	
 	public int getBounds(int index) {
