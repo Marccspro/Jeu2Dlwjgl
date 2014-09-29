@@ -25,6 +25,7 @@ public class ParticleSystem extends Entity{
 	public void update() {
 		for (int i = 0; i < particles.size(); i++) {
 			Particle p = particles.get(i);
+			if (p.removed) particles.remove(p);
 			p.update();
 		}
 	}

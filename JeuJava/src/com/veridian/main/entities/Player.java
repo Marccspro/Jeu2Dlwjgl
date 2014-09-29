@@ -8,6 +8,7 @@ import com.veridian.main.game.level.Level;
 import com.veridian.main.graphics.Color;
 import com.veridian.main.graphics.Renderer;
 import com.veridian.main.graphics.Texture;
+import com.veridian.main.math.Vector2f;
 import com.veridian.main.utiles.Animation;
 
 public class Player extends Entity {
@@ -39,6 +40,8 @@ public class Player extends Entity {
 
 		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
 			ya -= 0.3;
+			Particle particle = new Particle(Color.GREEN, new Vector2f(0, 4), 10, 0.5f, 10);
+			level.addEntity(new ParticleSystem((int) x + 8 - 5, (int) y + 8, 2, particle));
 		}
 
 		if (Keyboard.isKeyDown(Keyboard.KEY_Z) || Keyboard.isKeyDown(Keyboard.KEY_W)) {
@@ -76,8 +79,6 @@ public class Player extends Entity {
 
 		xa *= drag;
 		ya *= drag;
-
-		//level.addEntity(new ParticleSystem((int) x + 8, (int) y + 8, 2, new Particle()));
 	}
 
 	public void render() {
