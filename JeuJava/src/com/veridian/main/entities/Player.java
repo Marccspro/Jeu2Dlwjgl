@@ -1,9 +1,14 @@
 package com.veridian.main.entities;
 
-import org.lwjgl.input.Keyboard;
+import static org.lwjgl.opengl.GL11.*;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+
+import com.veridian.main.entities.bullets.BasicBullet;
 import com.veridian.main.entities.particles.Particle;
 import com.veridian.main.entities.particles.ParticleSystem;
+import com.veridian.main.game.Game;
 import com.veridian.main.game.level.Level;
 import com.veridian.main.graphics.Color;
 import com.veridian.main.graphics.Renderer;
@@ -22,6 +27,9 @@ public class Player extends Entity {
 		anim = new Animation(3, 10, true);
 		mass = 0.1f;
 		drag = 0.95f;
+		
+		shootPoint = new Vector2f(8, 8);
+		mouseDirection = new Vector2f();
 	}
 
 	float xa, ya;
@@ -40,8 +48,12 @@ public class Player extends Entity {
 
 		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
 			ya -= 0.3;
-			Particle particle = new Particle(Color.GREEN, new Vector2f(0, 4), 10, 0.5f, 10);
-			level.addEntity(new ParticleSystem((int) x + 8 - 5, (int) y + 8, 2, particle));
+			Particle particle = new Particle();
+			particle.setDirection(new Vector2f(0, 4));
+			particle.setSize(10);
+			particle.setSpeed(0.5f);
+			particle.setLifeTime(20);
+			level.addEntity(new ParticleSystem((int) x + 8 - 5, (int) y + 4, 2, particle, level));
 		}
 
 		if (Keyboard.isKeyDown(Keyboard.KEY_Z) || Keyboard.isKeyDown(Keyboard.KEY_W)) {
@@ -59,7 +71,16 @@ public class Player extends Entity {
 			dir = 0;
 			anim.play();
 		}
-
+		
+		if (Mouse.isButtonDown(0)) {
+			level.addEntity(new BasicBullet(x + shootPoint.x, y + shootPoint.y, mouseDirection));
+		}
+		
+		if (Game.getMouseX() > x + 8) dir = 0;
+		else if (Game.getMouseX() < x + 8) dir = 1;
+		
+		mouseDirection.set(Game.getMouseX() - (x + shootPoint.x), Game.getMouseY() - (y + shootPoint.y)).normalize();
+		
 		int xStep = (int) Math.abs(xa * 100);
 		for (int i = 0; i < xStep; i++) {
 			if (!isSolidTile(xa / xStep, 0)) {
@@ -85,10 +106,15 @@ public class Player extends Entity {
 		texture.bind();
 		Renderer.renderEntity(x, y, 16, 16, Color.WHITE, 4, 1 + dir, anim.getCurrentFrame());
 		texture.unbind();
+
+		glLineWidth(5);
+		glBegin(GL_LINES);
+			glVertex2f(x + shootPoint.x, y + shootPoint.y);
+			glVertex2f(x + shootPoint.x + mouseDirection.x * 16, y + shootPoint.y + mouseDirection.y * 16);
+		glEnd();
 	}
 
 	public void init(Level level) {
 		this.level = level;
 	}
-
 }

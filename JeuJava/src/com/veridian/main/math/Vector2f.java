@@ -16,9 +16,26 @@ public class Vector2f {
 		this.y = y;
 	}
 	
-//	public Vector2f rotate(float angle) {
-//		x = (float) Math.cos(Math.toRadians(angle));
-//		y = (float) Math.sin(Math.toRadians(angle));
-//		return this;
-//	}
+	public Vector2f set(float x, float y) {
+		this.x = x;
+		this.y = y;
+		
+		return this;
+	}
+	
+	public Vector2f normalize() {
+		float mag = (float) Math.sqrt(x * x + y * y);
+		
+		x /= mag;
+		y /= mag;
+		
+		return this;
+	}
+	
+	public Vector2f mul(float v) {
+		x *= v;
+		y *= v;
+		
+		return this;
+	}
 }

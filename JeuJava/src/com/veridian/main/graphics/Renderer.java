@@ -26,4 +26,35 @@ public class Renderer {
 			glTexCoord2f((0 + xo) / size, (1 + yo) / size); glVertex2f(x, y + h);
 		glEnd();
 	}
+	
+	public static void renderBullet(float x, float y, int size, int tex, float angle) {
+		int xo = tex % 8;
+		int yo = tex / 8;
+		
+		glPushMatrix();
+		
+			glTranslatef(x + size / 2, y + size / 2, 0);
+			glRotatef(angle, 0, 0, 1);
+			glTranslatef(-x - size / 2, -y - size / 2, 0);
+			
+			glBegin(GL_QUADS);
+			
+				glColor4f(1, 1, 1, 1);
+				glTexCoord2f((0 + xo) / 8.0f, (0 + yo) / 8.0f); glVertex2f(x, y);
+				glTexCoord2f((1 + xo) / 8.0f, (0 + yo) / 8.0f); glVertex2f(x + size, y);
+				glTexCoord2f((1 + xo) / 8.0f, (1 + yo) / 8.0f); glVertex2f(x + size, y + size);
+				glTexCoord2f((0 + xo) / 8.0f, (1 + yo) / 8.0f); glVertex2f(x, y + size);
+				
+			glEnd();
+		
+		glPopMatrix();
+	}
+	
+	public static void particleData(float x, float y, int size, float[] color) {
+		glColor4f(color[0], color[1], color[2], color[3]);
+		glTexCoord2f(0, 0); glVertex2f(x, y);
+		glTexCoord2f(1, 0); glVertex2f(x + size, y);
+		glTexCoord2f(1, 1); glVertex2f(x + size, y + size);
+		glTexCoord2f(0, 1); glVertex2f(x, y + size);
+	}
 }

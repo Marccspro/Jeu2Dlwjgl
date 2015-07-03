@@ -2,6 +2,7 @@ package com.veridian.main.entities;
 
 import com.veridian.main.game.level.Level;
 import com.veridian.main.graphics.Texture;
+import com.veridian.main.math.Vector2f;
 
 public abstract class Entity {
 	
@@ -9,10 +10,14 @@ public abstract class Entity {
 	protected boolean removed = false;
 	protected Texture texture;
 	protected Level level;
+	
 	protected float drag;
 	protected float mass;
 	
-	public Entity(int x, int y) {
+	protected Vector2f shootPoint;
+	protected Vector2f mouseDirection;
+	
+	public Entity(float x, float y) {
 		this.x = x * 16;
 		this.y = y * 16;
 	}

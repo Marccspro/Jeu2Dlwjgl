@@ -1,5 +1,7 @@
 package com.veridian.main.game;
 
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 import com.veridian.main.Component;
@@ -43,5 +45,13 @@ public class Game {
 	public void render() {
 		GL11.glTranslatef(xScroll, yScroll, 0);
 		level.render();
+	}
+	
+	public static float getMouseX() {
+		return Mouse.getX() / Component.scale - xScroll;
+	}
+	
+	public static float getMouseY() {
+		return (Display.getHeight() - Mouse.getY()) / Component.scale - yScroll;
 	}
 }

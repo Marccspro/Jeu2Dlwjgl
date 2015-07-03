@@ -16,6 +16,7 @@ public class Texture {
 	
 	public static Texture tiles = loadTexture("/textures/Tiles.png");
 	public static Texture player = loadTexture("/textures/PlayerSprites.png");
+	public static Texture bullets = loadTexture("/textures/Bullets.png");
 	
 	int width, height;
 	int id;
